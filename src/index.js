@@ -46,7 +46,8 @@ module.exports = {
 
     // Hook script
     arr = arr.concat([
-      'cd ' + normalizedPath,
+      'for DIR in */ ; do',
+      '(cd $DIR',
 
       // Fix for issue #16 #24
       // Test if script is defined in package.json
@@ -91,14 +92,14 @@ module.exports = {
       'command -v npm >/dev/null 2>&1 || { echo >&2 "' + npmNotFound + '"; exit 0; }',
 
       // Run script
-      'npm run ' + cmd,
+      'npm run ' + cmd + ')',
       'if [ $? -ne 0 ]; then',
       '  echo',
       '  echo "husky - ' + name + ' hook failed (add --no-verify to bypass)"',
       '  echo',
       '  exit 1',
       'fi',
-      ''
+      'done'
     ])
 
     // Create hooks directory if needed
